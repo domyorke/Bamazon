@@ -28,23 +28,22 @@ connection.query('SELECT * FROM products', function (error, results, fields) {
             },
         ])
         .then(answers => {
-            console.log(answers);
+            //console.log(answers);
             var selectedItem = results.filter(function (item) {
                 return (item.item_id === parseInt(answers.yourProductID));
             })
-            console.log(selectedItem);
+            //console.log(selectedItem);
             if (parseInt(answers.quantityOfChosenItem) <= selectedItem[0].stock_quantity) {
-                console.log(true);
+                //console.log(true);
                 connection.query("UPDATE products SET stock_quantity = " + (selectedItem[0].stock_quantity - answers.quantityOfChosenItem).toString() + " WHERE item_id = " + answers.yourProductID + ";", function (error, results, fields) {
-                    console.log(results);
-                    console.log(error);
-                    
+                    console.log("-----------------------------")
+                    console.log("Your total is $" + (selectedItem[0].price * answers.quantityOfChosenItem)+ ". Thank you for your purchase!");
+                    console.log("-----------------------------")
+                    //console.log("Remaining Stock of Selected Item... " + selectedItem[0].stock_quantity);
                 })
-
             }
             else (console.log("Insufficient Quantity"));
             connection.end();
         });
-
+        
 });
-
