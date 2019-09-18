@@ -14,8 +14,8 @@ connection.connect();
 connection.query('SELECT * FROM products', function (error, results, fields) {
     if (error) throw error;
     console.table(results);
-    inquirer
-        .prompt([
+    inquirer.prompt(
+        [
             {
                 type: "input",
                 message: "What item_ID would you like to purchase?",
@@ -35,19 +35,16 @@ connection.query('SELECT * FROM products', function (error, results, fields) {
             console.log(selectedItem);
             if (parseInt(answers.quantityOfChosenItem) <= selectedItem[0].stock_quantity) {
                 console.log(true);
-                connection.query("UPDATE products SET stock_quantity = " + selectedItem[0].stock_quantity - answers.quantityOfChosenItem + " WHERE item_id = " + answers.yourProductID + "", function (error, results, fields) {
-                console.log(results);
-                console.log(error);
-
+                connection.query("UPDATE products SET stock_quantity = " + (selectedItem[0].stock_quantity - answers.quantityOfChosenItem).toString() + " WHERE item_id = " + answers.yourProductID + ";", function (error, results, fields) {
+                    console.log(results);
+                    console.log(error);
+                    
                 })
-
 
             }
             else (console.log("Insufficient Quantity"));
+            connection.end();
         });
 
 });
-
-connection.end();
-
 
